@@ -1,0 +1,29 @@
+on:
+  pull_request:
+    paths:
+      - 'searx/static/themes/oscar/src/**'
+      - 'searx/static/themes/oscar/package.json'
+      - 'searx/static/themes/oscar/gruntfile.js'
+
+jobs:
+  compile:
+    name: Compiled and update themes
+    runs-on: ubuntu-20.04
+    env:
+      PR_NUMBER: ${{ github.event.number }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Ubuntu packages
+        run: sudo ./utils/searx.sh install packages
+      - name: Install node dependencies
+        run: make V=1 node.env
+      - name: Build themes
+        run: make V=1 themes.all
+      - name: Commit and push
+        run: |
+          git config --global user.name '${{process.env.GITHUB_ACTOR}}'
+          git config --global user.email '${{process.env.GITHUB_ACTOR}}@users.noreply.github.com'
+          git add searx/static/themes/oscar/css searx/static/themes/fonts searx/static/themes/img searx/static/themes/js
+          git commit -m "These changes are in response to PR comments"
+          git push
