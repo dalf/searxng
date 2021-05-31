@@ -1,9 +1,9 @@
+name: Compile themes
+
 on:
   pull_request:
     paths:
-      - 'searx/static/themes/oscar/src/**'
-      - 'searx/static/themes/oscar/package.json'
-      - 'searx/static/themes/oscar/gruntfile.js'
+      - 'searx/static/themes/**'
 
 jobs:
   compile:
@@ -20,10 +20,10 @@ jobs:
         run: make V=1 node.env
       - name: Build themes
         run: make V=1 themes.all
-      - name: Commit and push
-        run: |
-          git config --global user.name '${{process.env.GITHUB_ACTOR}}'
-          git config --global user.email '${{process.env.GITHUB_ACTOR}}@users.noreply.github.com'
-          git add searx/static/themes/oscar/css searx/static/themes/fonts searx/static/themes/img searx/static/themes/js
-          git commit -m "These changes are in response to PR comments"
-          git push
+      - name: Add, commit and push
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: 'searx/static/themes/'
+          author_name: searxng-bot
+          author_email: searxng-bot@users.noreply.github.com
+          message: '[bot] PR #${{ github.event.number }}: Automatic themes compilation'
