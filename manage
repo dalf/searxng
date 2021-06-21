@@ -303,6 +303,9 @@ node.env() {
 
     (   set -e
 
+        build_msg DATA "searx_extra/update/update_pygments.py"
+        pyenv.cmd python searx_extra/update/update_pygments.py
+
         build_msg INSTALL "searx/static/themes/oscar/package.json"
         npm --prefix searx/static/themes/oscar install
 
