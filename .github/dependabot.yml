@@ -8,3 +8,9 @@ updates:
       day: "friday"
     open-pull-requests-limit: 5
     target-branch: "master"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 20
+    target-branch: "master"
