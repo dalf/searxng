@@ -115,7 +115,7 @@ jobs:
         pip install babel jinja2
         searx_extra/update/update_translations.sh
     - name: Open pull request
-      if: steps.update.conclusion == 'success'
+      if: success()
       uses: peter-evans/create-pull-request@v3
       with:
         commit-message: Update translations (pot, po)
