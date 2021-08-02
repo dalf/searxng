@@ -192,7 +192,7 @@ _category_names = (
     gettext('videos'),
     gettext('it'),
     gettext('news'),
-    gettext('map'),
+    gettext('maps'),
     gettext('onions'),
     gettext('science')
 )
