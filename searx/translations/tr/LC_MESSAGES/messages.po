@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-02 08:57+0000\n"
 "PO-Revision-Date: 2020-09-30 20:20+0000\n"
 "Last-Translator: BouRock\n"
 "Language: tr\n"
@@ -56,8 +56,8 @@ msgid "news"
 msgstr "haberler"
 
 #: searx/webapp.py:195
-msgid "map"
-msgstr "harita"
+msgid "maps"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
@@ -1244,4 +1244,7 @@ msgstr "Yanıtlar"
 
 #~ msgid "Loading..."
 #~ msgstr "Yükleniyor..."
+
+#~ msgid "map"
+#~ msgstr "harita"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-02 08:57+0000\n"
 "PO-Revision-Date: 2017-11-20 13:39+0000\n"
 "Last-Translator: Artur <artur@komoter.pl>\n"
 "Language: pl_PL\n"
@@ -55,8 +55,8 @@ msgid "news"
 msgstr "wiadomości"
 
 #: searx/webapp.py:195
-msgid "map"
-msgstr "mapa"
+msgid "maps"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
@@ -1245,4 +1245,7 @@ msgstr "Odpowiedzi"
 
 #~ msgid "Load more..."
 #~ msgstr "Załaduj więcej..."
+
+#~ msgid "map"
+#~ msgstr "mapa"
 

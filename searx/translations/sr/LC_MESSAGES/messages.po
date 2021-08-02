@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-02 08:57+0000\n"
 "PO-Revision-Date: 2020-07-09 22:18+0000\n"
 "Last-Translator: Issa1552 <fairfull.playing@gmail.com>\n"
 "Language: sr\n"
@@ -56,8 +56,8 @@ msgid "news"
 msgstr "новости"
 
 #: searx/webapp.py:195
-msgid "map"
-msgstr "мапа"
+msgid "maps"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
@@ -1241,4 +1241,7 @@ msgstr "Одговори"
 
 #~ msgid "Loading..."
 #~ msgstr "Учитавање..."
+
+#~ msgid "map"
+#~ msgstr "мапа"
 

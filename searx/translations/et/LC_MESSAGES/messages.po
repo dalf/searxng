@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-02 08:57+0000\n"
 "PO-Revision-Date: 2020-12-04 19:01+0000\n"
 "Last-Translator: Madis Otenurm\n"
 "Language: et\n"
@@ -54,8 +54,8 @@ msgid "news"
 msgstr "uudised"
 
 #: searx/webapp.py:195
-msgid "map"
-msgstr "kaardid"
+msgid "maps"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
@@ -1240,4 +1240,7 @@ msgstr "Vastused"
 
 #~ msgid "Loading..."
 #~ msgstr "Laadimine..."
+
+#~ msgid "map"
+#~ msgstr "kaardid"
 

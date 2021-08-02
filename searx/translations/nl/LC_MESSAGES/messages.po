@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-02 08:57+0000\n"
 "PO-Revision-Date: 2020-12-29 20:44+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language: nl\n"
@@ -56,8 +56,8 @@ msgid "news"
 msgstr "nieuws"
 
 #: searx/webapp.py:195
-msgid "map"
-msgstr "kaart"
+msgid "maps"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
@@ -1247,4 +1247,7 @@ msgstr "Antwoorden"
 
 #~ msgid "Loading..."
 #~ msgstr "Laden..."
+
+#~ msgid "map"
+#~ msgstr "kaart"
 
