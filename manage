@@ -135,10 +135,33 @@ ci.babel.update() {
             build_msg BABEL 'no changes detected, exiting'
             return 1
         fi
+        # Lock Weblate translation
+        build_msg WEBLATE 'lock'
+        pyenv.cmd wlc lock
+        # Push changes from Weblate to upstream repository
+        build_msg WEBLATE 'push'
+        pyenv.cmd wlc push
+        # Update searx/translations/*/LC_MESSAGES/messages.po files
+        build_msg BABEL 'updating .po files'
         babel.update
-        build_msg BABEL 'update done, edit .po files if required and run babel.compile'
+        # Compile translation files
+        babel.compile
+        # Create commit
+        build_msg GIT 'commit'
+        git add searx/translations
+        git commit -m "Update translations.pot and transaltions.po files"
+        # Push changes to upstream repository
+        build_msg GIT 'push'
+        git push
     )
-    dump_return $?
+    exitcode=$?
+    (
+        set -e
+        # Unlock translations
+        build_msg WEBLATE 'lock'
+        pyenv.cmd wlc unlock
+    )
+    dump_return $exitcode
 }
 
 babel.extract() {
