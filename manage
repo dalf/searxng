@@ -47,7 +47,9 @@ buildenv:
 babel.:
   extract   : extract messages from source files and generate POT file
   update    : update existing message catalogs from POT file
-  compile   : compile translation catalogs into binary MO files
+  compile   : compile translation catalogs into binary MO files 
+  babel.master.to.translations: update the translations branch from the messages of the branch source
+  babel.translations.to.master: copy change from the translations branch to the master branch (no commit)
 data.:
   all       : update searx/languages.py and ./data/*
   languages : update searx/data/engines_languages.json & searx/languages.py
@@ -122,26 +124,26 @@ buildenv() {
     return "${PIPESTATUS[0]}"
 }
 
-translations_clone_dir="$CACHE/translations"
+TRANSLATIONS_WORKTREE="$CACHE/translations"
 
-_babel_get_translations_branch=''
-babel.get.translations.branch() {
+_babel_setup_translations_worktree=''
+babel.setup.translations.worktree() {
     (   set -e
-        if [ "$_babel_get_translations_branch" == "" ]; then
+        if [ "$_babel_setup_translations_worktree" == "" ]; then
             if ! git remote get-url weblate 2> /dev/null; then
                 git remote add weblate https://weblate.bubu1.eu/git/searxng/searxng/
             fi
-            if [ -d "${translations_clone_dir}" ]; then
+            if [ -d "${TRANSLATIONS_WORKTREE}" ]; then
                 pushd .
-                cd "${translations_clone_dir}"
+                cd "${TRANSLATIONS_WORKTREE}"
                 git pull origin translations
                 git reset --hard HEAD
                 popd
             else
-                mkdir -p "${translations_clone_dir}"
-                git worktree add "${translations_clone_dir}" translations
+                mkdir -p "${TRANSLATIONS_WORKTREE}"
+                git worktree add "${TRANSLATIONS_WORKTREE}" translations
             fi
-            _babel_get_translations_branch="OK"
+            _babel_setup_translations_worktree="OK"
         fi
     )
 }
@@ -155,8 +157,8 @@ babel.weblate.to.translations() {
         # weblate: commit pending changes
         pyenv.cmd wlc commit
         # get the translations in a worktree
-        babel.get.translations.branch
-        cd "${translations_clone_dir}"
+        babel.setup.translations.worktree
+        cd "${TRANSLATIONS_WORKTREE}"
         git remote update weblate
         git merge weblate/translations
         git push
@@ -165,14 +167,14 @@ babel.weblate.to.translations() {
 }
 
 babel.translations.to.master() {
-    local translations_clone
     (   set -e
         pyenv.cmd wlc lock
         # pull weblate commits
         babel.weblate.to.translations
         # copy the changes to the master branch
-        cp -rv --preserve=mode,timestamps "$translations_clone_dir/searx/translations" "searx"
+        cp -rv --preserve=mode,timestamps "${TRANSLATIONS_WORKTREE}/searx/translations" "searx"
         # compile translations
+        build_msg BABEL 'compile translation catalogs into binary MO files'
         pyenv.cmd pybabel compile --statistics \
                 -d "searx/translations"
     )
@@ -185,28 +187,30 @@ babel.translations.to.master() {
 }
 
 babel.master.to.translations() {
-    local new_sha translations_sha translations_clone exitcode
+    local messages_pot diff_messages_pot exitcode
     (   set -e
         # lock change on weblate
         pyenv.cmd wlc lock
 
         # get translation branch
-        babel.get.translations.branch
+        babel.setup.translations.worktree
 
         # update messages.pot
-        messages_pot="${translations_clone_dir}/searx/translations/messages.pot"
+        build_msg BABEL 'extract messages from source files and generate POT file'
+        messages_pot="${TRANSLATIONS_WORKTREE}/searx/translations/messages.pot"
         pyenv.cmd pybabel extract -F babel.cfg \
                 -o "${messages_pot}" \
                 "searx/"
 
         # stop if there is no meaningful change
-        if [ -z '$(git diff "${messages_pot}" | grep "[\+\-]msgid")' ]; then
+        diff_messages_pot=$(cd "${TRANSLATIONS_WORKTREE}"; git diff -- "searx/translations/messages.pot")
+        if ! echo "$diff_messages_pot" | grep -qE "[\+\-](msgid|msgstr)"; then
             build_msg BABEL 'no changes detected, exiting'
             return 0
         fi
 
         # save messages.pot for later
-        cd "${translations_clone_dir}"
+        cd "${TRANSLATIONS_WORKTREE}"
         git stash push
         cd -
 
@@ -214,17 +218,18 @@ babel.master.to.translations() {
         babel.weblate.to.translations
         
         # restore messages.pot
-        cd "${translations_clone_dir}"
+        cd "${TRANSLATIONS_WORKTREE}"
         git stash pop
         cd -
 
         # update messages.po files
+        build_msg BABEL 'update existing message catalogs from POT file'
         pyenv.cmd pybabel update -N \
             -i "${messages_pot}" \
-            -d "${translations_clone_dir}/searx/translations"
+            -d "${TRANSLATIONS_WORKTREE}/searx/translations"
         
         # git add/commit/push
-        cd "${translations_clone_dir}"
+        cd "${TRANSLATIONS_WORKTREE}"
         git add searx/translations
         git commit -m "[translations] update messages.pot and messages.po files"
         git push
@@ -236,29 +241,6 @@ babel.master.to.translations() {
         pyenv.cmd wlc unlock
     )
     dump_return $exitcode
-}
-
-babel.extract() {
-    build_msg BABEL 'extract messages from source files and generate POT file'
-    pyenv.cmd pybabel extract -F babel.cfg \
-            -o "searx/translations/messages.pot" \
-            "searx/"
-    dump_return $?
-}
-
-babel.update() {
-    build_msg BABEL 'update existing message catalogs from POT file'
-    pyenv.cmd pybabel update -N \
-              -i "searx/translations/messages.pot" \
-              -d "searx/translations"
-    dump_return $?
-}
-
-babel.compile() {
-    build_msg BABEL 'compile translation catalogs into binary MO files'
-    pyenv.cmd pybabel compile --statistics \
-              -d "searx/translations"
-    dump_return $?
 }
 
 data.all() {
