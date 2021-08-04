@@ -190,7 +190,7 @@ _category_names = (
     gettext('social media'),
     gettext('images'),
     gettext('videos'),
-    gettext('it'),
+    gettext('computer science'),
     gettext('news'),
     gettext('map'),
     gettext('onions'),
