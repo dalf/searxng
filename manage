@@ -145,7 +145,7 @@ babel.get.translations.clone() {
 
 babel.weblate.to.translations() {
     (   set -e
-        if [ "$(wlc lock-status)" != "locked: True" ]; then
+        if [ "$(pyenv.cmd wlc lock-status)" != "locked: True" ]; then
             build_msg BABEL 'weblate must be locked'
             exit 1
         fi
