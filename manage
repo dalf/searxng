@@ -155,6 +155,7 @@ babel.weblate.to.translations() {
             exit 1
         fi
         # weblate: commit pending changes
+        pyenv.cmd wlc pull
         pyenv.cmd wlc commit
         # get the translations in a worktree
         babel.setup.translations.worktree
