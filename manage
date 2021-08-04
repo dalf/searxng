@@ -124,10 +124,10 @@ buildenv() {
 
 translations_clone_dir="$CACHE/translations"
 
-_babel_get_translations_clone=''
-babel.get.translations.clone() {
+_babel_get_translations_branch=''
+babel.get.translations.branch() {
     (   set -e
-        if [ "$_babel_get_translations_clone" == "" ]; then
+        if [ "$_babel_get_translations_branch" == "" ]; then
             if ! git remote get-url weblate 2> /dev/null; then
                 git remote add weblate https://weblate.bubu1.eu/git/searxng/searxng/
             fi
@@ -141,19 +141,21 @@ babel.get.translations.clone() {
                 mkdir -p "${translations_clone_dir}"
                 git worktree add "${translations_clone_dir}" translations
             fi
-            _babel_get_translations_clone="OK"
+            _babel_get_translations_branch="OK"
         fi
     )
 }
 
 babel.weblate.to.translations() {
     (   set -e
-        pwd
         if [ "$(pyenv.cmd wlc lock-status)" != "locked: True" ]; then
-            build_msg BABEL 'weblate must be locked'
+            build_msg BABEL "weblate must be locked, currently: $(pyenv.cmd wlc lock-status)"
             exit 1
         fi
-        babel.get.translations.clone
+        # weblate: commit pending changes
+        pyenv.cmd wlc commit
+        # get the translations in a worktree
+        babel.get.translations.branch
         cd "${translations_clone_dir}"
         git remote update weblate
         git merge weblate/translations
@@ -169,9 +171,10 @@ babel.translations.to.master() {
         # pull weblate commits
         babel.weblate.to.translations
         # copy the changes to the master branch
-        cp -r "$translations_clone_dir/searx/translations" "${REPO_ROOT}/searx/translations"
+        cp -rv --preserve=mode,timestamps "$translations_clone_dir/searx/translations" "searx"
         # compile translations
-        babel.compile
+        pyenv.cmd pybabel compile --statistics \
+                -d "searx/translations"
     )
     exitcode=$?
     (   # make sure to always unlock weblate
@@ -184,26 +187,30 @@ babel.translations.to.master() {
 babel.master.to.translations() {
     local new_sha translations_sha translations_clone exitcode
     (   set -e
+        # lock change on weblate
         pyenv.cmd wlc lock
 
-        babel.get.translations.clone
+        # get translation branch
+        babel.get.translations.branch
 
+        # update messages.pot
         messages_pot="${translations_clone_dir}/searx/translations/messages.pot"
         pyenv.cmd pybabel extract -F babel.cfg \
                 -o "${messages_pot}" \
                 "searx/"
 
+        # stop if there is no meaningful change
         if [ -z '$(git diff "${messages_pot}" | grep "[\+\-]msgid")' ]; then
             build_msg BABEL 'no changes detected, exiting'
             return 0
         fi
 
-        # save messages.pot
+        # save messages.pot for later
         cd "${translations_clone_dir}"
         git stash push
         cd -
 
-        # update the translations branch with weblate commits
+        # merge weblate commits into the translations branch
         babel.weblate.to.translations
         
         # restore messages.pot
