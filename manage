@@ -236,7 +236,7 @@ babel.master.to.translations() {
         cd -
 
         # notify weblate
-        wlc pull
+        pyenv.cmd wlc pull
     )
     exitcode=$?
     (   # make sure to always unlock weblate
