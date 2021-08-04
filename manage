@@ -234,6 +234,9 @@ babel.master.to.translations() {
         git commit -m "[translations] update messages.pot and messages.po files"
         git push
         cd -
+
+        # notify weblate
+        wlc pull
     )
     exitcode=$?
     (   # make sure to always unlock weblate
