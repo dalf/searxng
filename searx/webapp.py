@@ -194,7 +194,7 @@ _category_names = (
     gettext('news'),
     gettext('map'),
     gettext('onions'),
-    gettext('science')
+    gettext('sciences')
 )
 
 #
