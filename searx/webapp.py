@@ -186,7 +186,7 @@ ui_locale_codes = [l.replace('_', '-') for l in settings['locales'].keys()]
 _category_names = (
     gettext('files'),
     gettext('general'),
-    gettext('music'),
+    gettext('musics'),
     gettext('social media'),
     gettext('images'),
     gettext('videos'),
