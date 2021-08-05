@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-09 13:10+0000\n"
 "Last-Translator: Aurora\n"
 "Language: fa_IR\n"
@@ -58,15 +58,15 @@ msgstr "اخبار"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "نقشه"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "دانش<br>"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1236,4 +1236,13 @@ msgstr "پاسخ ها<br>"
 
 #~ msgid "Loading..."
 #~ msgstr ""
+
+#~ msgid "map"
+#~ msgstr "نقشه"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "دانش<br>"
 

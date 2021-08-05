@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-09 13:10+0000\n"
 "Last-Translator: Daniel Șerbănescu <daniel@serbanescu.dk>\n"
 "Language: ro\n"
@@ -57,15 +57,15 @@ msgstr "știri"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "hărți"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "știință"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1244,4 +1244,13 @@ msgstr "Răspunsuri"
 
 #~ msgid "Loading..."
 #~ msgstr ""
+
+#~ msgid "map"
+#~ msgstr "hărți"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "știință"
 

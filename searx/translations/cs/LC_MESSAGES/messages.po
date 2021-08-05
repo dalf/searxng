@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-16 13:52+0000\n"
 "Last-Translator: Lukáš Kucharczyk <lukas@kucharczyk.xyz>\n"
 "Language: cs\n"
@@ -58,15 +58,15 @@ msgstr "zprávy"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "mapa"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "věda"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1245,4 +1245,13 @@ msgstr "Odpovědi"
 
 #~ msgid "Loading..."
 #~ msgstr "Načítání…"
+
+#~ msgid "map"
+#~ msgstr "mapa"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "věda"
 

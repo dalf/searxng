@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-09 22:17+0000\n"
 "Last-Translator: Issa1552 <fairfull.playing@gmail.com>\n"
 "Language: hr\n"
@@ -56,15 +56,15 @@ msgstr "vijesti"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "karta"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "znanost"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1243,4 +1243,13 @@ msgstr "Odgovori"
 
 #~ msgid "Loading..."
 #~ msgstr "Učitavanje..."
+
+#~ msgid "map"
+#~ msgstr "karta"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "znanost"
 

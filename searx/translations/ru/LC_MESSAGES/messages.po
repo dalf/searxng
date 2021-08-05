@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-20 11:54+0000\n"
 "Last-Translator: Dima Ivchenko <kvdbve34@gmail.com>\n"
 "Language: ru\n"
@@ -62,15 +62,15 @@ msgstr "новости"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "карты"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "наука"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1248,4 +1248,13 @@ msgstr "Ответы"
 
 #~ msgid "Loading..."
 #~ msgstr "Загрузка..."
+
+#~ msgid "map"
+#~ msgstr "карты"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "наука"
 

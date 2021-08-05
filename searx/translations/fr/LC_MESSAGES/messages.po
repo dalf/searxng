@@ -13,18 +13,19 @@
 # rike, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version:  searx\n"
+"Project-Id-Version: searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
-"PO-Revision-Date: 2020-07-11 16:29+0000\n"
-"Last-Translator: Cqoicebordel\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
+"PO-Revision-Date: 2021-08-05 07:38+0000\n"
+"Last-Translator: Alexandre Flament <alex@al-f.net>\n"
+"Language-Team: French <https://weblate.bubu1.eu/projects/searxng/searxng/fr/>"
+"\n"
 "Language: fr\n"
-"Language-Team: French "
-"(http://www.transifex.com/asciimoo/searx/language/fr/)\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.7.2\n"
 "Generated-By: Babel 2.9.1\n"
 
 #: searx/webapp.py:187
@@ -61,15 +62,15 @@ msgstr "actualités"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "carte"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "science"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -93,7 +94,7 @@ msgstr ""
 
 #: searx/webapp.py:213
 msgid "HTTP error"
-msgstr ""
+msgstr "Erreur HTTP"
 
 #: searx/webapp.py:214
 msgid "HTTP connection error"
@@ -105,7 +106,7 @@ msgstr ""
 
 #: searx/webapp.py:221
 msgid "CAPTCHA"
-msgstr ""
+msgstr "CAPTCHA"
 
 #: searx/webapp.py:222
 msgid "too many requests"
@@ -181,11 +182,11 @@ msgstr "Aucun résumé disponible pour cette publication."
 
 #: searx/engines/qwant.py:196
 msgid "Source"
-msgstr ""
+msgstr "Source"
 
 #: searx/engines/qwant.py:198
 msgid "Channel"
-msgstr ""
+msgstr "Chaîne"
 
 #: searx/plugins/hash_plugin.py:24
 msgid "Converts strings to different hash digests."
@@ -367,7 +368,7 @@ msgstr "Autoriser"
 
 #: searx/templates/oscar/macros.html:139
 msgid "broken"
-msgstr ""
+msgstr "Non fonctionnel"
 
 #: searx/templates/oscar/macros.html:141
 msgid "supported"
@@ -1255,3 +1256,11 @@ msgstr "Réponses"
 #~ msgid "Loading..."
 #~ msgstr "Chargement…"
 
+#~ msgid "map"
+#~ msgstr "carte"
+
+#~ msgid "maps"
+#~ msgstr "cartes"
+
+#~ msgid "science"
+#~ msgstr "science"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-09 13:10+0000\n"
 "Last-Translator: dd721411 <dd721411@gmail.com>\n"
 "Language: vi\n"
@@ -54,15 +54,15 @@ msgstr "tin tức"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "bản đồ"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "khoa học"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1240,4 +1240,13 @@ msgstr "Các đáp án"
 
 #~ msgid "Loading..."
 #~ msgstr ""
+
+#~ msgid "map"
+#~ msgstr "bản đồ"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "khoa học"
 

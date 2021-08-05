@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-09-10 17:09+0000\n"
 "Last-Translator: NeoCode <amecus79@gmail.com>\n"
 "Language: de\n"
@@ -67,15 +67,15 @@ msgstr "Neuigkeiten"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "Karte"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "Wissenschaft"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1259,4 +1259,13 @@ msgstr "Antworten"
 
 #~ msgid "Loading..."
 #~ msgstr "Lade..."
+
+#~ msgid "map"
+#~ msgstr "Karte"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "Wissenschaft"
 

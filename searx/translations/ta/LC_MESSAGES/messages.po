@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  searx\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-31 19:11+0200\n"
+"POT-Creation-Date: 2021-08-04 18:30+0000\n"
 "PO-Revision-Date: 2020-07-09 13:10+0000\n"
 "Last-Translator: Prasanna Venkadesh <prasmailme@gmail.com>\n"
 "Language: ta\n"
@@ -59,15 +59,15 @@ msgstr "செய்திகள்"
 
 #: searx/webapp.py:195
 msgid "map"
-msgstr "வரைப்படம்"
+msgstr ""
 
 #: searx/webapp.py:196
 msgid "onions"
 msgstr ""
 
 #: searx/webapp.py:197
-msgid "science"
-msgstr "அறிவியல்"
+msgid "sciences"
+msgstr ""
 
 #: searx/webapp.py:201
 msgid "timeout"
@@ -1232,4 +1232,13 @@ msgstr "பதில்கள்"
 
 #~ msgid "Loading..."
 #~ msgstr ""
+
+#~ msgid "map"
+#~ msgstr "வரைப்படம்"
+
+#~ msgid "maps"
+#~ msgstr ""
+
+#~ msgid "science"
+#~ msgstr "அறிவியல்"
 
