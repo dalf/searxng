@@ -223,6 +223,8 @@ babel.master.to.translations() {
         git stash pop
         cd -
 
+        set -x
+
         # update messages.po files
         build_msg BABEL 'update existing message catalogs from POT file'
         pyenv.cmd pybabel update -N \
