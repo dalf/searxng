@@ -188,7 +188,7 @@ babel.translations.to.master() {
 }
 
 babel.master.to.translations() {
-    local messages_pot diff_messages_pot last_commit_hash commit_message exitcode
+    local messages_pot diff_messages_pot last_commit_hash last_commit_message last_commit_detail exitcode
     (   set -e
         # lock change on weblate
         pyenv.cmd wlc lock
@@ -233,14 +233,11 @@ babel.master.to.translations() {
 
         # git add/commit/push
         last_commit_hash=$(git log -n1  --pretty=format:'%h')
-        read -r -d '' commit_message << EOM
-[translations] update messages.pot and messages.po files
-Reference on master branch:
-$(git log --pretty=format:'%h - %as - %aN <%ae>' "${last_commit_hash}")
-EOM
+        last_commit_detail=$(git log -n1 --pretty=format:'%h - %as - %aN <%ae>' "${last_commit_hash}")
+        last_commit_message=$(echo -e "[translations] update messages.pot and messages.po files\nFrom ${last_commit_detail}")
         cd "${TRANSLATIONS_WORKTREE}"
         git add searx/translations
-        git commit -m "${commit_message}"
+        git commit -m "${last_commit_message}"
         git push
         cd -
 
