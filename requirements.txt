@@ -10,6 +10,6 @@ pyyaml==6.0
 httpx[http2]==0.19.0
 Brotli==1.0.9
 uvloop==0.16.0
-httpx-socks[asyncio]==0.4.1
+httpx-socks[asyncio]==0.7.2
 langdetect==1.0.9
 setproctitle==1.2.2
