@@ -19,16 +19,15 @@
     searxng.on('.btn-collapse', 'click', function () {
       var btnLabelCollapsed = this.getAttribute('data-btn-text-collapsed');
       var btnLabelNotCollapsed = this.getAttribute('data-btn-text-not-collapsed');
+      var btnLabelElement = this.querySelector('.btn-label');
       var target = this.getAttribute('data-target');
       var targetElement = d.querySelector(target);
-      var html = this.innerHTML;
-      if (this.classList.contains('collapsed')) {
-        html = html.replace(btnLabelCollapsed, btnLabelNotCollapsed);
-      } else {
-        html = html.replace(btnLabelNotCollapsed, btnLabelCollapsed);
-      }
-      this.innerHTML = html;
       this.classList.toggle('collapsed');
+      if (this.classList.contains('collapsed')) {
+        btnLabelElement.textContent = btnLabelCollapsed;
+      } else {
+        btnLabelElement.textContent = btnLabelNotCollapsed;
+      }
       targetElement.classList.toggle('invisible');
     });
 
@@ -51,10 +50,9 @@
         if (imgElement) {
           const imgSrc = imgElement.getAttribute('data-src');
           if (imgSrc) {
-            const loader = d.createElement('div');
+            const loader = searxng.h('div', { class: 'loader' });
             const imgLoader = new Image();
 
-            loader.classList.add('loader');
             detailElement.appendChild(loader);
 
             imgLoader.onload = e => {

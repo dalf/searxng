@@ -344,7 +344,7 @@ searxng.ready(function () {
     };
   }
 
-  function initHelpContent (divElement) {
+  function createHelpPanel (htmlId) {
     var categories = {};
 
     for (var k in vimKeys) {
@@ -361,51 +361,39 @@ searxng.ready(function () {
       return;
     }
 
-    var html = '<a href="#" class="close" aria-label="close" title="close">×</a>';
-    html += '<h3>How to navigate searx with Vim-like hotkeys</h3>';
-    html += '<table>';
+    const h = searxng.h;
 
-    for (var i = 0; i < sorted.length; i++) {
-      var cat = categories[sorted[i]];
-
-      var lastCategory = i === (sorted.length - 1);
-      var first = i % 2 === 0;
-
-      if (first) {
-        html += '<tr>';
+    const rows = [];
+    for (let i = 0; i < sorted.length; i++) {
+      if (i % 2 == 0) {
+        rows.push(h(('tr')))
       }
-      html += '<td>';
-
-      html += '<h4>' + cat[0].cat + '</h4>';
-      html += '<ul class="list-unstyled">';
-
-      for (var cj in cat) {
-        html += '<li><kbd>' + cat[cj].key + '</kbd> ' + cat[cj].des + '</li>';
+      const cat = categories[sorted[i]];
+      const h4 = h('h4', null, cat[0].cat);
+      const ul = h('ul', {class: "list-unstyled"});
+      for (const cj in cat) {
+        ul.appendChild(
+          h('li', null, [
+            h('kbd', null, cat[cj].key),
+            ' ' + cat[cj].des
+          ]));
       }
-
-      html += '</ul>';
-      html += '</td>'; // col-sm-*
-
-      if (!first || lastCategory) {
-        html += '</tr>'; // row
-      }
+      const td = h('td', null, [h4, ul]);
+      rows[rows.length - 1].appendChild(td);
     }
 
-    html += '</table>';
-
-    divElement.innerHTML = html;
+    return h('div', {class: 'dialog-modal', id: htmlId}, [
+      h('a', {class: "close", "aria-label": "close", "title": "close"}, '×'),
+      h('h3', null, 'How to navigate searx with Vim-like hotkeys'),
+      h('table', null, rows),
+    ]);
   }
 
   function toggleHelp () {
     var helpPanel = document.querySelector('#vim-hotkeys-help');
-    if (helpPanel === undefined || helpPanel === null) {
+    if (helpPanel == null) {
       // first call
-      helpPanel = document.createElement('div');
-      helpPanel.id = 'vim-hotkeys-help';
-      helpPanel.className = 'dialog-modal';
-      initHelpContent(helpPanel);
-      initHelpContent(helpPanel);
-      initHelpContent(helpPanel);
+      helpPanel = createHelpPanel('vim-hotkeys-help');
       var body = document.getElementsByTagName('body')[0];
       body.appendChild(helpPanel);
     } else {

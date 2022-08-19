@@ -51,6 +51,30 @@ window.searxng = (function (w, d) {
     }
   };
 
+  searxng.h = function (elementName, props, childrens) {
+    // similar to VueJS h function: https://vuejs.org/api/render-function.html#h
+    const e = document.createElement(elementName);
+    if (props != null) {
+      for (const [name, value] of Object.entries(props)) {
+        e.setAttribute(name, value);
+      }
+    }
+    if (childrens != null) {
+      if (typeof child === "string") {
+        e.appendChild(document.createTextNode(childrens))
+      } else {
+        for (const child of childrens) {
+          if (typeof child === "string") {
+            e.appendChild(document.createTextNode(child))
+          } else {
+            e.appendChild(child);
+          }
+        }
+      }
+    }
+    return e;
+  }
+
   searxng.ready = function (callback) {
     if (document.readyState != 'loading') {
       callback.call(w);
@@ -105,11 +129,12 @@ window.searxng = (function (w, d) {
       id = "style_" + src.replace('.', '_'),
       s = d.getElementById(id);
     if (s === null) {
-      s = d.createElement('link');
-      s.setAttribute('id', id);
-      s.setAttribute('rel', 'stylesheet');
-      s.setAttribute('type', 'text/css');
-      s.setAttribute('href', path);
+      s = searxng.h('link', {
+        id: id,
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: path,
+      });
       d.body.appendChild(s);
     }
   };
@@ -119,9 +144,10 @@ window.searxng = (function (w, d) {
       id = "script_" + src.replace('.', '_'),
       s = d.getElementById(id);
     if (s === null) {
-      s = d.createElement('script');
-      s.setAttribute('id', id);
-      s.setAttribute('src', path);
+      s = searxng.h('script', {
+        id: id,
+        src: path,
+      });
       s.onload = callback;
       s.onerror = function () {
         s.setAttribute('error', '1');
