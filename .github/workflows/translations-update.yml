@@ -7,7 +7,7 @@ on:
 jobs:
   babel:
     name: "create PR for additons from weblate"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     if: ${{ github.repository_owner == 'searxng' && github.ref == 'refs/heads/master' }}
     steps:
     - name: Checkout
@@ -16,7 +16,7 @@ jobs:
         fetch-depth: '0'
         token: ${{ secrets.WEBLATE_GITHUB_TOKEN }}
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
         architecture: 'x64'
@@ -25,7 +25,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./local
-        key: python-ubuntu-20.04-3.9-${{ hashFiles('requirements*.txt', 'setup.py') }}
+        key: python-ubuntu-22.04-3.9-${{ hashFiles('requirements*.txt', 'setup.py') }}
     - name: weblate & git setup
       env:
         WEBLATE_CONFIG: ${{ secrets.WEBLATE_CONFIG }}

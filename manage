@@ -26,7 +26,7 @@ PATH="${REPO_ROOT}/node_modules/.bin:${PATH}"
 
 PYOBJECTS="searx"
 PY_SETUP_EXTRAS='[test]'
-GECKODRIVER_VERSION="v0.30.0"
+GECKODRIVER_VERSION="v0.32.0"
 export NODE_MINIMUM_VERSION="16.13.0"
 # SPHINXOPTS=
 BLACK_OPTIONS=("--target-version" "py37" "--line-length" "120" "--skip-string-normalization")
