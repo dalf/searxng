@@ -31,6 +31,7 @@ export NODE_MINIMUM_VERSION="16.13.0"
 # SPHINXOPTS=
 BLACK_OPTIONS=("--target-version" "py37" "--line-length" "120" "--skip-string-normalization")
 BLACK_TARGETS=("--exclude" "searx/static,searx/languages.py" "--include" 'searxng.msg|\.pyi?$' "searx" "searxng_extra" "tests")
+DEFAULT_DEV_REDIS_SOCKET="/usr/local/searxng-redis/run/redis.sock"
 
 pylint.FILES() {
 
@@ -144,6 +145,11 @@ webapp.run() {
         sleep 3
         xdg-open http://127.0.0.1:8888/
     )&
+    # set SEARXNG_REDIS_URL if it is not defined and "{DEFAULT_DEV_REDIS_URL}" exists.
+    if [ -S "${DEFAULT_DEV_REDIS_SOCKET}" ] && [ -z "${SEARXNG_REDIS_URL}" ]; then
+        export SEARXNG_REDIS_URL="unix://${DEFAULT_DEV_REDIS_SOCKET}?db=0"
+        build_msg RUN "Use Redis URL ${SEARXNG_REDIS_URL}"
+    fi
     SEARXNG_DEBUG=1 pyenv.cmd python -m searx.webapp
 }
 
