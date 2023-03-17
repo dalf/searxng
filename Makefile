@@ -44,10 +44,10 @@ lxc.clean:
 
 PHONY += search.checker search.checker.%
 search.checker: install
-	$(Q)./manage pyenv.cmd searx-checker -v
+	$(Q)./manage pyenv.cmd searxng-checker -v
 
 search.checker.%: install
-	$(Q)./manage pyenv.cmd searx-checker -v "$(subst _, ,$(patsubst search.checker.%,%,$@))"
+	$(Q)./manage pyenv.cmd searxng-checker -v "$(subst _, ,$(patsubst search.checker.%,%,$@))"
 
 PHONY += test ci.test test.shell
 ci.test: test.yamllint test.black test.pyright test.pylint test.unit test.robot test.rst test.pybabel
@@ -56,25 +56,12 @@ test.shell:
 	$(Q)shellcheck -x -s dash \
 		dockerfiles/docker-entrypoint.sh
 	$(Q)shellcheck -x -s bash \
-		utils/brand.env \
-		$(MTOOLS) \
-		utils/lib.sh \
-		utils/lib_nvm.sh \
-		utils/lib_static.sh \
-		utils/lib_go.sh \
-		utils/lib_redis.sh \
-		utils/filtron.sh \
-		utils/searx.sh \
-		utils/searxng.sh \
-		utils/morty.sh \
-		utils/lxc.sh \
-		utils/lxc-searxng.env
+		$(MTOOLS)
 	$(Q)$(MTOOLS) build_msg TEST "$@ OK"
 
 
 # wrap ./manage script
 
-MANAGE += buildenv
 MANAGE += weblate.translations.commit weblate.push.translations
 MANAGE += data.all data.languages data.useragents data.osm_keys_tags
 MANAGE += docs.html docs.live docs.gh-pages docs.prebuild docs.clean

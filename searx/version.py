@@ -64,7 +64,7 @@ def get_git_version():
 
     # add "+dirty" suffix if there are uncommited changes except searx/settings.yml
     try:
-        subprocess_run("git diff --quiet -- . ':!searx/settings.yml' ':!utils/brand.env'")
+        subprocess_run("git diff --quiet -- . ':!searx/settings.yml'")
     except subprocess.CalledProcessError as e:
         if e.returncode == 1:
             git_version += ".dirty"

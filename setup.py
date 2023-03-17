@@ -26,7 +26,7 @@ def version_yyyymmdd_tag():
 
 setup(
     name='searxng',
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     description="A privacy-respecting, hackable metasearch engine",
     long_description=long_description,
     use_scm_version=version_yyyymmdd_tag,

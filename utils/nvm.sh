@@ -12,14 +12,6 @@
 
 declare main_cmd
 
-# configure nvm environment
-# -------------------------
-
-NVM_LOCAL_FOLDER=.nvm
-
-[[ -z "${NVM_GIT_URL}" ]] &&  NVM_GIT_URL="https://github.com/nvm-sh/nvm.git"
-[[ -z "${NVM_MIN_NODE_VER}" ]] && NVM_MIN_NODE_VER="16.13.0"
-
 # initialize nvm environment
 # -------------------------
 
