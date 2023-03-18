@@ -37,23 +37,23 @@ class OnlineCurrencyProcessor(OnlineProcessor):
 
     engine_type = 'online_currency'
 
-    def get_params(self, search_query, engine_category):
+    def get_query_and_params_online(self, engine_search_query):
         """Returns a set of *request params* or ``None`` if search query does not match
         to :py:obj:`parser_re`."""
 
-        params = super().get_params(search_query, engine_category)
+        query, params = super().get_query_and_params_online(engine_search_query)
         if params is None:
-            return None
+            return None, None
 
-        m = parser_re.match(search_query.query)
+        m = parser_re.match(engine_search_query.query)
         if not m:
-            return None
+            return None, None
 
         amount_str, from_currency, to_currency = m.groups()
         try:
             amount = float(amount_str)
         except ValueError:
-            return None
+            return None, None
         from_currency = name_to_iso4217(from_currency.strip())
         to_currency = name_to_iso4217(to_currency.strip())
 
@@ -62,7 +62,7 @@ class OnlineCurrencyProcessor(OnlineProcessor):
         params['to'] = to_currency
         params['from_name'] = iso4217_to_name(from_currency, 'en')
         params['to_name'] = iso4217_to_name(to_currency, 'en')
-        return params
+        return query, params
 
     def get_default_tests(self):
         tests = {}

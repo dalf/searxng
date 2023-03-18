@@ -406,10 +406,10 @@ class Checker:
     def search(self, search_query: SearchQuery) -> ResultContainer:
         result_container = ResultContainer()
         engineref_category = search_query.engineref_list[0].category
-        params = self.processor.get_params(search_query, engineref_category)
+        params = self.processor.get_engine_search_query(search_query, engineref_category)
         if params is not None:
             counter_inc('engine', search_query.engineref_list[0].name, 'search', 'count', 'sent')
-            self.processor.search(search_query.query, params, result_container, default_timer(), 5)
+            self.processor.search_wrapper(search_query.query, params, result_container, default_timer(), 5)
         return result_container
 
     def get_result_container_tests(self, test_name: str, search_query: SearchQuery) -> ResultContainerTests:

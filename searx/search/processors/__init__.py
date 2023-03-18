@@ -50,10 +50,16 @@ def get_processor_class(engine_type):
 def get_processor(engine, engine_name):
     """Return processor instance that fits to ``engine.engine.type``)"""
     engine_type = getattr(engine, 'engine_type', 'online')
-    processor_class = get_processor_class(engine_type)
-    if processor_class:
-        return processor_class(engine, engine_name)
-    return None
+    # request / response function (searx way)
+    if isinstance(engine_type, str):
+        processor_class = get_processor_class(engine_type)
+        if processor_class:
+            return processor_class(engine, engine_name)
+        return None
+    # Class
+    if issubclass(engine_type, EngineProcessor):
+        return engine_type(engine, engine_name)
+    raise ValueError('engine_type must be either a string or a subclass of EngineProcessor')
 
 
 def initialize_processor(processor):

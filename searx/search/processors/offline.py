@@ -6,6 +6,7 @@
 """
 
 from .abstract import EngineProcessor
+from .searx_engine_api import get_query_and_params
 
 
 class OfflineProcessor(EngineProcessor):
@@ -13,12 +14,12 @@ class OfflineProcessor(EngineProcessor):
 
     engine_type = 'offline'
 
-    def _search_basic(self, query, params):
-        return self.engine.search(query, params)
+    def search(self, engine_search_query):
+        return self.engine.search(*get_query_and_params(self.engine, engine_search_query))
 
-    def search(self, query, params, result_container, start_time, timeout_limit):
+    def search_wrapper(self, engine_search_query, result_container, start_time, timeout_limit):
         try:
-            search_results = self._search_basic(query, params)
+            search_results = self.search(engine_search_query)
             self.extend_container(result_container, start_time, search_results)
         except ValueError as e:
             # do not record the error

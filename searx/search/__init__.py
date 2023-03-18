@@ -136,14 +136,14 @@ class Search:
                 continue
 
             # set default request parameters
-            request_params = processor.get_params(self.search_query, engineref.category)
-            if request_params is None:
+            engine_search_query = processor.get_engine_search_query(self.search_query, engineref)
+            if engine_search_query is None:
                 continue
 
             counter_inc('engine', engineref.name, 'search', 'count', 'sent')
 
             # append request to list
-            requests.append((engineref.name, self.search_query.query, request_params))
+            requests.append((engineref.name, engine_search_query))
 
             # update default_timeout
             default_timeout = max(default_timeout, processor.engine.timeout)
@@ -178,10 +178,10 @@ class Search:
         # pylint: disable=protected-access
         search_id = str(uuid4())
 
-        for engine_name, query, request_params in requests:
+        for engine_name, engine_search_query in requests:
             th = threading.Thread(  # pylint: disable=invalid-name
-                target=PROCESSORS[engine_name].search,
-                args=(query, request_params, self.result_container, self.start_time, self.actual_timeout),
+                target=PROCESSORS[engine_name].search_wrapper,
+                args=(engine_search_query, self.result_container, self.start_time, self.actual_timeout),
                 name=search_id,
             )
             th._timeout = False

@@ -7,6 +7,7 @@
 
 import threading
 from abc import abstractmethod, ABC
+from copy import copy
 from timeit import default_timer
 from typing import Dict, Union
 
@@ -137,7 +138,7 @@ class EngineProcessor(ABC):
             return True
         return False
 
-    def get_params(self, search_query, engine_category):
+    def get_engine_search_query(self, search_query, engineref):
         """Returns a set of *request params* or ``None`` if request is not supported.
 
         Not supported conditions (``None`` is returned):
@@ -153,21 +154,14 @@ class EngineProcessor(ABC):
         if search_query.time_range and not self.engine.time_range_support:
             return None
 
-        params = {}
-        params['category'] = engine_category
-        params['pageno'] = search_query.pageno
-        params['safesearch'] = search_query.safesearch
-        params['time_range'] = search_query.time_range
-        params['engine_data'] = search_query.engine_data.get(self.engine_name, {})
-
+        engine_search_query = copy(search_query)
         if hasattr(self.engine, 'language') and self.engine.language:
-            params['language'] = self.engine.language
-        else:
-            params['language'] = search_query.lang
-        return params
+            engine_search_query.lang = self.engine.language
+        engine_search_query.engineref_list = [engineref]
+        return engine_search_query
 
     @abstractmethod
-    def search(self, query, params, result_container, start_time, timeout_limit):
+    def search_wrapper(self, engine_search_query, result_container, start_time, timeout_limit):
         pass
 
     def get_tests(self):

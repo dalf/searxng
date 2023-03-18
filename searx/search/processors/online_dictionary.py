@@ -17,16 +17,16 @@ class OnlineDictionaryProcessor(OnlineProcessor):
 
     engine_type = 'online_dictionary'
 
-    def get_params(self, search_query, engine_category):
+    def get_query_and_params_online(self, engine_search_query):
         """Returns a set of *request params* or ``None`` if search query does not match
         to :py:obj:`parser_re`."""
-        params = super().get_params(search_query, engine_category)
+        query, params = super().get_query_and_params_online(engine_search_query)
         if params is None:
-            return None
+            return None, None
 
-        m = parser_re.match(search_query.query)
+        m = parser_re.match(engine_search_query.query)
         if not m:
-            return None
+            return None, None
 
         from_lang, to_lang, query = m.groups()
 
@@ -34,13 +34,13 @@ class OnlineDictionaryProcessor(OnlineProcessor):
         to_lang = is_valid_lang(to_lang)
 
         if not from_lang or not to_lang:
-            return None
+            return None, None
 
         params['from_lang'] = from_lang
         params['to_lang'] = to_lang
         params['query'] = query
 
-        return params
+        return query, params
 
     def get_default_tests(self):
         tests = {}
