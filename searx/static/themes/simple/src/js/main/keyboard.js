@@ -48,20 +48,20 @@ searxng.ready(function () {
     if (isImageResult(resultElement)) {
       var matchKey = true;
       switch (e.key){
-          case 'ArrowLeft':
-            searxng.selectPrevious();
-            break;
-          case 'ArrowRight':
-            searxng.selectPrevious();
-            break;
-          case 'Escape':
-            removeFocus(e);
-            break;
-          default:
-            matchKey = false;
+        case 'ArrowLeft':
+          searxng.selectPrevious();
+          break;
+        case 'ArrowRight':
+          searxng.selectPrevious();
+          break;
+        case 'Escape':
+          removeFocus(e);
+          break;
+        default:
+          matchKey = false;
       }
       if (matchKey){
-          e.preventDefault();
+        e.preventDefault();
       }
     }
   });
