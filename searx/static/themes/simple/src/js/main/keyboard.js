@@ -44,7 +44,7 @@ searxng.ready(function () {
   });
 
   searxng.on('.result', 'keydown', function (e) {
-    let resultElement = getResultElement(e.target);
+    var resultElement = getResultElement(e.target);
     if (isImageResult(resultElement)) {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
