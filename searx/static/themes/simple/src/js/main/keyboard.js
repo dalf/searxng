@@ -46,15 +46,19 @@ searxng.ready(function () {
   searxng.on('.result', 'keydown', function (e) {
     var resultElement = getResultElement(e.target);
     if (isImageResult(resultElement)) {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        searxng.selectPrevious();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        searxng.selectNext();
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        removeFocus(e);
+      var matchKey = true;
+      switch (e.key){
+          case 'ArrowLeft':
+            searxng.selectPrevious();
+          case 'ArrowRight':
+            searxng.selectPrevious();
+          case 'Escape':
+            removeFocus(e);
+          default:
+            matchKey = false;
+      }
+      if (matchKey){
+          e.preventDefault();
       }
     }
   });
