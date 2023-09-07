@@ -50,10 +50,13 @@ searxng.ready(function () {
       switch (e.key){
           case 'ArrowLeft':
             searxng.selectPrevious();
+            break;
           case 'ArrowRight':
             searxng.selectPrevious();
+            break;
           case 'Escape':
             removeFocus(e);
+            break;
           default:
             matchKey = false;
       }
