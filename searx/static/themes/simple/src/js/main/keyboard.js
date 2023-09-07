@@ -43,6 +43,22 @@ searxng.ready(function () {
     }
   });
 
+  searxng.on('.result', 'keydown', function (e) {
+    let resultElement = getResultElement(e.target);
+    if (isImageResult(resultElement)) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        searxng.selectPrevious();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        searxng.selectNext();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        removeFocus(e);
+      }
+    }
+  });
+
   searxng.on('.result a', 'focus', function (e) {
     if (!isElementInDetail(e.target)) {
       let resultElement = getResultElement(e.target);
