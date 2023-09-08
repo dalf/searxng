@@ -44,25 +44,22 @@ searxng.ready(function () {
   });
 
   searxng.on('.image-detail-open', 'keydown', function (e) {
-    var resultElement = getResultElement(e.target);
-    if (isImageResult(resultElement)) {
-      var matchKey = true;
-      switch (e.key){
-      case 'ArrowLeft':
-        searxng.selectPrevious();
-        break;
-      case 'ArrowRight':
-        searxng.selectNext();
-        break;
-      case 'Escape':
-        removeFocus(e);
-        break;
-      default:
-        matchKey = false;
-      }
-      if (matchKey){
-        e.preventDefault();
-      }
+    var matchKey = true;
+    switch (e.key){
+    case 'ArrowLeft':
+      searxng.selectPrevious();
+      break;
+    case 'ArrowRight':
+      searxng.selectNext();
+      break;
+    case 'Escape':
+      removeFocus(e);
+      break;
+    default:
+      matchKey = false;
+    }
+    if (matchKey){
+      e.preventDefault();
     }
   });
 
