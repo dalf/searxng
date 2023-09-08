@@ -52,7 +52,7 @@ searxng.ready(function () {
         searxng.selectPrevious();
         break;
       case 'ArrowRight':
-        searxng.selectPrevious();
+        searxng.selectNext();
         break;
       case 'Escape':
         removeFocus(e);
