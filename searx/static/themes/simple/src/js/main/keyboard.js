@@ -43,7 +43,7 @@ searxng.ready(function () {
     }
   });
 
-  searxng.on('.result', 'keydown', function (e) {
+  searxng.on('.image-detail-open', 'keydown', function (e) {
     var resultElement = getResultElement(e.target);
     if (isImageResult(resultElement)) {
       var matchKey = true;
