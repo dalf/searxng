@@ -44,6 +44,9 @@ searxng.ready(function () {
   });
 
   searxng.on('.image-detail-open', 'keydown', function (e) {
+    if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
+      return;
+    }
     var matchKey = true;
     switch (e.key){
     case 'ArrowLeft':
