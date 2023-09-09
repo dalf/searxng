@@ -43,29 +43,6 @@ searxng.ready(function () {
     }
   });
 
-  searxng.on('.image-detail-open', 'keydown', function (e) {
-    if (e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) {
-      return;
-    }
-    var matchKey = true;
-    switch (e.key){
-    case 'ArrowLeft':
-      searxng.selectPrevious();
-      break;
-    case 'ArrowRight':
-      searxng.selectNext();
-      break;
-    case 'Escape':
-      removeFocus(e);
-      break;
-    default:
-      matchKey = false;
-    }
-    if (matchKey){
-      e.preventDefault();
-    }
-  });
-
   searxng.on('.result a', 'focus', function (e) {
     if (!isElementInDetail(e.target)) {
       let resultElement = getResultElement(e.target);
@@ -78,13 +55,30 @@ searxng.ready(function () {
     }
   }, true);
 
-  var vimKeys = {
+  // these bindings are always on
+  var keyBindings = {
     27: {
       key: 'Escape',
       fun: removeFocus,
       des: 'remove focus from the focused input',
       cat: 'Control'
     },
+    37: {
+      key: 'Left',
+      fun: ifDetailOpened(highlightResult('up')),
+      des: 'select previous search result',
+      cat: 'Results'
+    },
+    39: {
+      key: 'Right',
+      fun: ifDetailOpened(highlightResult('down')),
+      des: 'select next search result',
+      cat: 'Results'
+    }
+  }
+
+  // these bindings are enabled by user preferences
+  var vimKeys = {
     73: {
       key: 'i',
       fun: searchInputFocus,
@@ -178,20 +172,30 @@ searxng.ready(function () {
   };
 
   if (searxng.settings.hotkeys) {
-    searxng.on(document, "keydown", function (e) {
-      // check for modifiers so we don't break browser's hotkeys
-      if (Object.prototype.hasOwnProperty.call(vimKeys, e.keyCode) && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
-        var tagName = e.target.tagName.toLowerCase();
-        if (e.keyCode === 27) {
-          vimKeys[e.keyCode].fun(e);
-        } else {
-          if (e.target === document.body || tagName === 'a' || tagName === 'button') {
-            e.preventDefault();
-            vimKeys[e.keyCode].fun();
-          }
+    Object.assign(keyBindings, vimKeys);
+  }
+
+  searxng.on(document, "keydown", function (e) {
+    // check for modifiers so we don't break browser's hotkeys
+    if (Object.prototype.hasOwnProperty.call(keyBindings, e.keyCode) && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
+      var tagName = e.target.tagName.toLowerCase();
+      if (e.keyCode === 27) {
+        keyBindings[e.keyCode].fun(e);
+      } else {
+        if (e.target === document.body || tagName === 'a' || tagName === 'button') {
+          e.preventDefault();
+          keyBindings[e.keyCode].fun();
         }
       }
-    });
+    }
+  });
+
+  function ifDetailOpened (f) {
+    return function () {
+      if (searxng.isDetailOpened()) {
+        f();
+      }
+    }
   }
 
   function highlightResult (which) {
@@ -370,8 +374,8 @@ searxng.ready(function () {
   function initHelpContent (divElement) {
     var categories = {};
 
-    for (var k in vimKeys) {
-      var key = vimKeys[k];
+    for (var k in keyBindings) {
+      var key = keyBindings[k];
       categories[key.cat] = categories[key.cat] || [];
       categories[key.cat].push(key);
     }
