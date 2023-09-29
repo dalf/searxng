@@ -16,7 +16,7 @@ import werkzeug
 from searx.tools import config
 from searx import logger
 
-logger = logger.getChild('botdetection')
+logger = logger.getChild('limiter')
 
 
 def dump_request(request: flask.Request):
@@ -37,7 +37,7 @@ def dump_request(request: flask.Request):
 
 def too_many_requests(network: IPv4Network | IPv6Network, log_msg: str) -> werkzeug.Response | None:
     """Returns a HTTP 429 response object and writes a ERROR message to the
-    'botdetection' logger.  This function is used in part by the filter methods
+    'limiter' logger.  This function is used in part by the filter methods
     to return the default ``Too Many Requests`` response.
 
     """

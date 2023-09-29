@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # lint: pylint
-""".. _botdetection src:
+""".. _limiter src:
 
 The :ref:`limiter <limiter src>` implements several methods to block bots:
 
@@ -35,13 +35,11 @@ X-Forwarded-For
 .. _Apache RequestHeader:
     https://docs.searxng.org/admin/installation-apache.html#apache-s-searxng-site
 
-.. autofunction:: searx.botdetection.get_real_ip
-
 """
 
 from ._helpers import dump_request
 from ._helpers import get_real_ip
 from ._helpers import too_many_requests
-from .install import initialize, is_installed
+from .limiter import initialize, is_installed
 
 __all__ = ['dump_request', 'get_real_ip', 'too_many_requests', 'initialize', 'is_installed']

@@ -7,7 +7,7 @@ import sys
 import flask
 
 from searx import redisdb, logger
-from searx.botdetection import limiter
+from searx.limiter import limiter
 
 # the configuration are limiter.toml and "limiter" in settings.yml
 # so, for coherency, the logger is "limiter" even if the module name "searx.botdetection"

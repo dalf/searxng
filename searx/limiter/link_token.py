@@ -67,7 +67,7 @@ PING_KEY = 'SearXNG_limiter.ping'
 TOKEN_KEY = 'SearXNG_limiter.token'
 """Key for which the current token is stored in the DB"""
 
-logger = logger.getChild('botdetection.link_token')
+logger = logger.getChild('limiter.link_token')
 
 
 def is_suspicious(network: IPv4Network | IPv6Network, request: flask.Request, renew: bool = False):

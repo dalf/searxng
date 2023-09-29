@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # lint: pylint
-""".. _limiter src:
+""".. _limiter.limiter src:
 
 Limiter
 =======
@@ -17,7 +17,7 @@ by the search engine (the origin) in some other way.
 
 To avoid blocking, the requests from bots to SearXNG must also be blocked, this
 is the task of the limiter.  To perform this task, the limiter uses the methods
-from the :py:obj:`searx.botdetection`.
+from the :py:obj:`searx.limiter`.
 
 To enable the limiter activate:
 
@@ -41,11 +41,13 @@ from __future__ import annotations
 
 from pathlib import Path
 from ipaddress import ip_address
+import sys
+
 import flask
 import werkzeug
 
 from searx.tools import config
-from searx import logger
+from searx import redisdb, logger
 
 from . import (
     http_accept,
@@ -63,12 +65,12 @@ from ._helpers import (
     dump_request,
 )
 
-logger = logger.getChild('botdetection.limiter')
+logger = logger.getChild('limiter')
 
 CFG: config.Config = None  # type: ignore
 
 LIMITER_CFG_SCHEMA = Path(__file__).parent / "limiter.toml"
-"""Base configuration (schema) of the botdetection."""
+"""Base configuration (schema) of the limiter."""
 
 LIMITER_CFG = Path('/etc/searxng/limiter.toml')
 """Local Limiter configuration."""
@@ -76,6 +78,8 @@ LIMITER_CFG = Path('/etc/searxng/limiter.toml')
 CFG_DEPRECATED = {
     # "dummy.old.foo": "config 'dummy.old.foo' exists only for tests.  Don't use it in your real project config."
 }
+
+INSTALLED: bool = False
 
 
 def get_cfg() -> config.Config:
@@ -145,3 +149,29 @@ def filter_request(request: flask.Request) -> werkzeug.Response | None:
                 return val
     logger.debug(f"OK {network}: %s", dump_request(flask.request))
     return None
+
+
+def pre_request():
+    """See :ref:`flask.Flask.before_request`"""
+    return filter_request(flask.request)
+
+
+def is_installed():
+    return INSTALLED
+
+
+def initialize(app: flask.Flask, settings):
+    """Install the limiter if the configuration requires it"""
+    global INSTALLED  # pylint: disable=global-statement
+    if not settings['server']['limiter'] and not settings['server']['public_instance']:
+        return
+    if not redisdb.client():
+        logger.error(
+            "The limiter requires Redis, please consult the documentation: "
+            + "https://docs.searxng.org/admin/searx.limiter.html#limiter"
+        )
+        if settings['server']['public_instance']:
+            sys.exit(1)
+        return
+    app.before_request(pre_request)
+    INSTALLED = True

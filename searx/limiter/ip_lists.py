@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # lint: pylint
-""".. _botdetection.ip_lists:
+""".. _limiter.ip_lists:
 
 Method ``ip_lists``
 -------------------
