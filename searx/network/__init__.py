@@ -55,7 +55,7 @@ The overall architecture:
 import threading
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Optional, Tuple, Union
 
 import httpx
 
@@ -100,7 +100,10 @@ class NetworkContextNotFound(Exception):
 
 @contextmanager
 def networkcontext_manager(
-    network_name: Optional[str] = None, timeout: Optional[float] = None, start_time: Optional[float] = None
+    network_name: Optional[str] = None,
+    timeout: Optional[float] = None,
+    start_time: Optional[float] = None,
+    extra: Optional[Tuple] = None,
 ):
     """Context manager to set a NetworkContext for the current thread
 
@@ -133,7 +136,7 @@ def networkcontext_manager(
     ```
     """
     network = NETWORKS.get(network_name)
-    network_context = network.get_context(timeout=timeout, start_time=start_time)
+    network_context = network.get_context(timeout=timeout, start_time=start_time, extra=extra)
     setattr(_THREADLOCAL, _NETWORK_CONTEXT_KEY, network_context)
     try:
         yield network_context

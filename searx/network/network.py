@@ -86,16 +86,15 @@ class Network:
         '_settings',
         '_local_addresses_cycle',
         '_proxies_cycle',
-        '_clients',
         '_logger',
     )
+    _clients: Dict[Tuple, HTTPClient] = {}
 
     def __init__(self, settings: NetworkSettings):
         """Creates a Network from a NetworkSettings"""
         self._settings = settings
         self._local_addresses_cycle = self._get_local_addresses_cycle()
         self._proxies_cycle = self._get_proxy_cycles()
-        self._clients: Dict[Tuple, HTTPClient] = {}
         self._logger = logger.getChild(settings.logger_name) if settings.logger_name else logger
 
     @staticmethod
@@ -119,12 +118,14 @@ class Network:
             self._logger.exception('Error')
             return False
 
-    def get_context(self, timeout: Optional[float] = None, start_time: Optional[float] = None) -> NetworkContext:
+    def get_context(
+        self, timeout: Optional[float] = None, start_time: Optional[float] = None, extra: Optional[Tuple] = None
+    ) -> NetworkContext:
         """Return a new NetworkContext"""
         context_cls = self._settings.retry_strategy.value
-        return context_cls(self._settings.retries, self._get_http_client, start_time, timeout)
+        return context_cls(self._settings.retries, self._get_http_client, start_time, timeout, extra)
 
-    def _get_http_client(self) -> HTTPClient:
+    def _get_http_client(self, extra: Optional[Tuple] = None) -> HTTPClient:
         """Return an HTTP client.
 
         Different HTTP clients are returned according to the configuration.
@@ -136,12 +137,12 @@ class Network:
         """
         local_addresses = next(self._local_addresses_cycle)
         proxies = next(self._proxies_cycle)  # is a tuple so it can be part of the key
-        key = (local_addresses, proxies)
-        if key not in self._clients or self._clients[key].is_closed:
+        key = (local_addresses, proxies, extra)
+        if key not in Network._clients or Network._clients[key].is_closed:
             http_client_cls = TorHTTPClient if self._settings.using_tor_proxy else HTTPClient
             hook_log_response = self._log_response if searx_debug else None
             log_trace = self._log_trace if searx_debug else None
-            self._clients[key] = http_client_cls(
+            Network._clients[key] = http_client_cls(
                 verify=self._settings.verify,
                 enable_http=self._settings.enable_http,
                 enable_http2=self._settings.enable_http2,

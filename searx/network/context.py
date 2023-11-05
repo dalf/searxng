@@ -41,7 +41,7 @@ import ssl
 from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from timeit import default_timer
-from typing import Callable, Optional, final
+from typing import Callable, Optional, Tuple, final
 
 try:
     from typing import ParamSpec, TypeVar
@@ -55,7 +55,7 @@ from searx.network.client import ABCHTTPClient, SoftRetryHTTPException
 
 P = ParamSpec('P')
 R = TypeVar('R')
-HTTPCLIENTFACTORY = Callable[[], ABCHTTPClient]
+HTTPCLIENTFACTORY = Callable[[Tuple], ABCHTTPClient]
 
 DEFAULT_TIMEOUT = 120.0
 
@@ -69,7 +69,7 @@ class NetworkContext(ABC):
     Lifetime: one engine request or initialization of an engine.
     """
 
-    __slots__ = ('_retries', '_http_client_factory', '_http_client', '_start_time', '_http_time', '_timeout')
+    __slots__ = ('_retries', '_http_client_factory', '_http_client', '_start_time', '_http_time', '_timeout', '_extra')
 
     def __init__(
         self,
@@ -77,6 +77,7 @@ class NetworkContext(ABC):
         http_client_factory: HTTPCLIENTFACTORY,
         start_time: Optional[float],
         timeout: Optional[float],
+        extra: Optional[Tuple],
     ):
         self._retries: int = retries
         # wrap http_client_factory here, so we can forget about this wrapping
@@ -85,6 +86,7 @@ class NetworkContext(ABC):
         self._start_time: float = start_time or default_timer()
         self._http_time: float = 0.0
         self._timeout: Optional[float] = timeout
+        self._extra: Optional[Tuple] = extra
 
     @abstractmethod
     def call(self, func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> R:
@@ -153,7 +155,7 @@ class NetworkContext(ABC):
         self._http_client = None
 
     def _get_new_client_from_factory(self):
-        return self._http_client_factory()
+        return self._http_client_factory(extra=self._extra)
 
     @contextmanager
     def _record_http_time(self):
@@ -198,8 +200,8 @@ class _TimeHTTPClientWrapper(ABCHTTPClient):
         """Return a factory which wraps the result of http_client_factory with _TimeHTTPClientWrapper instance."""
         functools.wraps(http_client_factory)
 
-        def wrapped_factory():
-            return _TimeHTTPClientWrapper(http_client_factory(), network_context)
+        def wrapped_factory(extra: Optional[Tuple] = None):
+            return _TimeHTTPClientWrapper(http_client_factory(extra=extra), network_context)
 
         wrapped_factory.__wrapped__ = http_client_factory
         return wrapped_factory

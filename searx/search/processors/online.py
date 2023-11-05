@@ -9,13 +9,14 @@
 from timeit import default_timer
 import asyncio
 import ssl
-from typing import Dict, List
+from typing import Dict, List, Tuple, Optional
 
 import httpx
 
 import searx.network
 from searx.utils import gen_useragent
 from searx.exceptions import (
+    SearxEngineException,
     SearxEngineAccessDeniedException,
     SearxEngineCaptchaException,
     SearxEngineTooManyRequestsException,
@@ -150,9 +151,20 @@ class OnlineProcessor(EngineProcessor):
         response.search_params = params
         return self.engine.response(response)
 
+    def _get_network_extra_context(self, query, params) -> Optional[Tuple]:
+        if not hasattr(self.engine, 'get_network_extra_context'):
+            return None
+        result = self.engine.get_network_extra_context(query, params)
+        if not isinstance(result, tuple):
+            raise SearxEngineException('get_network_extra_context must return a tuple or None')
+        return result
+
     def search(self, query, params, result_container, start_time, timeout_limit):
         try:
-            with searx.network.networkcontext_manager(self.engine_name, timeout_limit, start_time) as network_context:
+            network_extra_context = self._get_network_extra_context(query, params)
+            with searx.network.networkcontext_manager(
+                self.engine_name, timeout_limit, start_time, extra=network_extra_context
+            ) as network_context:
                 # send requests and parse the results
                 search_results = network_context.call(self._search_basic, query, params)
                 # extend_container in the network context to get the HTTP runtime

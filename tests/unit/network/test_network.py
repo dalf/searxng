@@ -419,7 +419,7 @@ class TestNetworkRepr(SearxTestCase):
         def http_client_factory():
             return HTTPClient()
 
-        network_context = searx.network.context.NetworkContextRetryFunction(3, http_client_factory, 1.0, 2.0)
+        network_context = searx.network.context.NetworkContextRetryFunction(3, http_client_factory, 1.0, 2.0, None)
         r_network_context = repr(network_context)
         self.assertTrue(
             r_network_context.startswith("<NetworkContextRetryFunction retries=3 timeout=2.0 http_client=None")

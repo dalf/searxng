@@ -79,12 +79,21 @@ def set_bing_cookies(params, engine_language, engine_region):
     logger.debug("bing cookies: %s", params['cookies'])
 
 
-def request(query, params):
-    """Assemble a Bing-Web request."""
-
+def get_network_extra_context(_, params):
     engine_region = traits.get_region(params['searxng_locale'], traits.all_locale)  # type: ignore
     engine_language = traits.get_language(params['searxng_locale'], 'en')  # type: ignore
+    logger.debug("Network context: %s", str((engine_region, engine_language)))
+
+    params["engine_region"] = engine_region
+    params["engine_language"] = engine_language
+
     set_bing_cookies(params, engine_language, engine_region)
+
+    return (engine_region, engine_language)
+
+
+def request(query, params):
+    """Assemble a Bing-Web request."""
 
     page = params.get('pageno', 1)
     query_params = {

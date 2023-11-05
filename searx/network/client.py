@@ -14,8 +14,7 @@ import logging
 import random
 from abc import ABC, abstractmethod
 from collections import namedtuple
-from ssl import SSLContext
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 
 import httpx
 from httpx_socks import SyncProxyTransport
@@ -31,8 +30,6 @@ CertTypes = Union[
     # (certfile, keyfile, password)
     Tuple[str, Optional[str], Optional[str]],
 ]
-
-SSLCONTEXTS: Dict[Any, SSLContext] = {}
 
 
 class _NotSetClass:  # pylint: disable=too-few-public-methods
@@ -83,18 +80,14 @@ def _shuffle_ciphers(ssl_context):
 
 
 def _get_sslcontexts(
-    local_address: str,
-    proxy_url: Optional[str],
     cert: Optional[CertTypes],
     verify: Union[str, bool],
     trust_env: bool,
     http2: bool,
 ):
-    key = (local_address, proxy_url, cert, verify, trust_env, http2)
-    if key not in SSLCONTEXTS:
-        SSLCONTEXTS[key] = httpx.create_ssl_context(cert, verify, trust_env, http2)
-    _shuffle_ciphers(SSLCONTEXTS[key])
-    return SSLCONTEXTS[key]
+    context = httpx.create_ssl_context(cert, verify, trust_env, http2)
+    _shuffle_ciphers(context)
+    return context
 
 
 ### Transport
@@ -161,7 +154,7 @@ def _get_transport_for_socks_proxy(verify, http2, local_address, proxy_url, limi
         rdns = True
 
     proxy_type, proxy_host, proxy_port, proxy_username, proxy_password = parse_proxy_url(proxy_url)
-    verify = _get_sslcontexts(local_address, proxy_url, None, verify, True, http2) if verify is True else verify
+    verify = _get_sslcontexts(None, verify, True, http2) if verify is True else verify
 
     # About verify: in ProxyTransportFixed, verify is of type httpx._types.VerifyTypes
     return _CustomSyncProxyTransport(
@@ -180,7 +173,7 @@ def _get_transport_for_socks_proxy(verify, http2, local_address, proxy_url, limi
 
 
 def _get_transport(verify, http2, local_address, proxy_url, limit, retries):
-    verify = _get_sslcontexts(local_address, None, None, verify, True, http2) if verify is True else verify
+    verify = _get_sslcontexts(None, verify, True, http2) if verify is True else verify
     return httpx.HTTPTransport(
         # pylint: disable=protected-access
         verify=verify,

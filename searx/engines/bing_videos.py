@@ -11,8 +11,7 @@ from urllib.parse import urlencode
 from lxml import html
 
 from searx.enginelib.traits import EngineTraits
-from searx.engines.bing import set_bing_cookies
-from searx.engines.bing import fetch_traits  # pylint: disable=unused-import
+from searx.engines.bing import get_network_extra_context  # pylint: disable=unused-import
 from searx.engines.bing_images import time_map
 
 if TYPE_CHECKING:
@@ -44,10 +43,6 @@ base_url = 'https://www.bing.com/videos/asyncv2'
 
 def request(query, params):
     """Assemble a Bing-Video request."""
-
-    engine_region = traits.get_region(params['searxng_locale'], traits.all_locale)  # type: ignore
-    engine_language = traits.get_language(params['searxng_locale'], 'en')  # type: ignore
-    set_bing_cookies(params, engine_language, engine_region)
 
     # build URL query
     #

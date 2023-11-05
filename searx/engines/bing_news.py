@@ -17,7 +17,7 @@ from lxml import html
 
 from searx.utils import eval_xpath, extract_text, eval_xpath_list, eval_xpath_getindex
 from searx.enginelib.traits import EngineTraits
-from searx.engines.bing import set_bing_cookies
+from searx.engines.bing import get_network_extra_context  # pylint: disable=unused-import
 
 if TYPE_CHECKING:
     import logging
@@ -60,10 +60,6 @@ base_url = 'https://www.bing.com/news/infinitescrollajax'
 def request(query, params):
     """Assemble a Bing-News request."""
 
-    engine_region = traits.get_region(params['searxng_locale'], traits.all_locale)  # type: ignore
-    engine_language = traits.get_language(params['searxng_locale'], 'en')  # type: ignore
-    set_bing_cookies(params, engine_language, engine_region)
-
     # build URL query
     #
     # example: https://www.bing.com/news/infinitescrollajax?q=london&first=1
@@ -76,8 +72,8 @@ def request(query, params):
         'first': page * 10 + 1,
         'SFX': page,
         'form': 'PTFTNR',
-        'setlang': engine_region.split('-')[0],
-        'cc': engine_region.split('-')[-1],
+        'setlang': params["engine_region"].split('-')[0],
+        'cc': params["engine_region"].split('-')[-1],
     }
 
     if params['time_range']:
