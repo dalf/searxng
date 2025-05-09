@@ -1,0 +1,34 @@
+diff --git a/Dockerfile b/Dockerfile
+index 9aeb28214..c32efc9d1 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,15 +1,19 @@
+-FROM docker.io/library/python:3.13-slim AS builder
++
++FROM docker.io/ubuntu:noble AS builder
+ 
+ RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+     build-essential \
+     brotli \
+     # lxml
++    python3-dev \
+     libxml2-dev \
+     libxslt1-dev \
+     zlib1g-dev \
+     # uwsgi
+     libpcre3-dev \
++    python3.12-venv \
++    python-is-python3 \
+  && rm -rf /var/lib/apt/lists/*
+ 
+ WORKDIR /usr/local/searxng/
+@@ -42,7 +46,7 @@ RUN grep -m1 root /etc/group > /tmp/.searxng.group \
+  && echo "searxng:x:$SEARXNG_GID:" >> /tmp/.searxng.group \
+  && echo "searxng:x:$SEARXNG_UID:$SEARXNG_GID:searxng:/usr/local/searxng:/bin/bash" >> /tmp/.searxng.passwd
+ 
+-FROM docker.io/library/python:3.13-slim
++FROM docker.io/ubuntu:noble
+ 
+ RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
