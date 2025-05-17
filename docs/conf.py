@@ -206,3 +206,5 @@ html_show_sourcelink = True
 latex_documents = [
     (master_doc, "searxng-{}.tex".format(VERSION_STRING), html_title, author, "manual")
 ]
+
+1/0
